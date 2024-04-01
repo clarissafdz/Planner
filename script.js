@@ -241,6 +241,7 @@ function renderTasks() {
 
         const label = document.createElement('label');
         label.textContent = task.text;
+        label.style.fontSize= '16px';
         label.style.textDecoration = task.completed ? "line-through" : "none";
 
         const deleteButton = document.createElement('button');
