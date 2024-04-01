@@ -151,7 +151,7 @@ h2 {
 }
 
 .customTaskInput {
-    width: 100%; /* Ensure the custom task input takes the full width */
+    width: 76%; /* Ensure the custom task input takes the full width */
 }
 
 .selectAddContainer {
