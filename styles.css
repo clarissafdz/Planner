@@ -1,0 +1,231 @@
+
+body, input, select, button{ font-family: Averia Serif Libre, sans-serif; color: white;}
+.averia-serif libre-regular {
+    font-family: "Averia Serif Libre", serif;
+    font-weight: 400;
+    font-style: normal;
+    }
+    .addspecialbutton{
+    margin-top: 10px;
+    border: 1px solid #8C52FF;
+    fill-opacity: 0%;
+    background-color: transparent;
+    color: white;
+    border-radius: 100px;
+height: 40px;
+width: 40px;
+}
+    .assignmentDropdown{
+        border: 1px solid #8C52FF;
+    background-color: rgba(55, 32, 100, 0.5);
+    
+    padding: 10px;
+    color: white;
+    }
+input{
+    border: 1px solid #8C52FF;
+    fill-opacity: 0%;
+    background-color: transparent;
+    padding: 10px;
+    color: white;
+}
+button{
+    border: 1px solid #8C52FF;
+    fill-opacity: 0%;
+    background-color: #8C52FF;
+    color: white;
+}
+input::placeholder{
+    color: white;
+    opacity: 80%;
+}
+.addTaskContainer {
+    margin-top: 10px;
+}
+
+.customTaskInput, .assignmentDropdown {
+    margin-right: 0px;
+}
+
+.gradient {
+    position: relative;
+    display: inline;
+    margin-bottom: 5px;
+    }
+
+    .gradient::after {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 2px; /* Thickness of the underline */
+    left: 0;
+    bottom: 0; /* Adjust this value if you want to change the distance from the text */
+    background-image: linear-gradient(to right, rgb(255, 255, 255), #8C52FF);
+    }
+    .underline {
+    position: relative;
+    display: inline;
+    margin-bottom: 5px;
+    }
+
+    .underline::after {
+        
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 2px; /* Thickness of the underline */
+    left: 0;
+    bottom: 0; /* Adjust this value if you want to change the distance from the text */
+    background-image: linear-gradient(to right, rgb(255, 255, 255), #8C52FF);
+    }
+body {
+    margin-left: 60px;
+    background-image: url('bg.png');
+    background-size:cover; 
+    background-position: center; 
+    background-repeat: no-repeat; 
+    background-attachment: fixed; 
+    margin-bottom: 100px;
+}
+.weekContainer {
+    display: flex;
+    justify-content: space-around; /* This will space out the day columns evenly */
+    align-items: stretch; /* This makes sure all columns stretch to the same height */
+    margin: 20px 0;
+}
+
+.dayColumn {
+    flex: 1; /* This makes each day column take up equal width */
+    margin: 0 10px; /* Optional: Add some space between columns */
+    padding: 10px;
+    background-color: transparent; /* Example background color */
+    color: white; /* Example text color */
+    border-radius: 10px; /* Optional: Adds rounded corners */
+    display: flex;
+    flex-direction: column; /* Organizes the content of each column vertically */
+}
+
+.assignment { margin-bottom: 15px; }
+table { width: 90%;margin: 0 auto; border-collapse: collapse;border: 2px solid #8C52FF; }
+th { border: 2px solid #8C52FF; padding: 8px; text-align: left;}
+td { border: 0px solid #ddd; padding: 8px; text-align: left; background-color:#8c52ff17 ;}
+th {background-color: #8c52ff17; }
+.edit-icon, .delete-icon { 
+cursor: pointer; 
+margin-left: 0px; 
+width: 18px; 
+height: 18px; 
+}
+h2 {
+    font-size: 23px;
+}
+#classesList{
+    margin-top: 20px;
+    color:white;
+}
+.top-right {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+}
+
+#classSelect{
+    border: 1px solid #8C52FF;
+    background-color: rgba(55, 32, 100, 0.5);
+    
+    padding: 10px;
+    color: white;
+}
+.selectBut{
+    border: 1px solid #8C52FF;
+    background-color: rgba(55, 32, 100, 0.5);
+    
+    padding: 10px;
+    color: white;
+}
+.taskInputContainer {
+    display: flex;
+    flex-direction: column; /* Stack child elements vertically */
+    gap: 10px; /* Space between the custom task input and the select-add container */
+}
+
+.customTaskInput {
+    width: 100%; /* Ensure the custom task input takes the full width */
+}
+
+.selectAddContainer {
+    display: flex;
+    align-items: center; /* Align the select dropdown and button vertically */
+}
+
+.assignmentDropdown, .dayColumn button {
+    margin-right: 0px; /* Space between select dropdown and the add button */
+    margin-top: 10px;
+}
+
+.dayColumn button {
+    margin-top: 10px;
+    border: 0px solid #8C52FF;
+    fill-opacity: 0%;
+    background-color: transparent;
+    color: white;
+    border-radius: 100px;
+height: 30px;
+width: 30px;
+}
+.dayHeader {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.addTaskButton {
+    border: 1px solid #8C52FF;
+    background-color: transparent;
+    color: white;
+    padding: 5px 10px; /* Adjust padding to fit your design */
+    cursor: pointer;
+    margin-left: 10px; /* Creates space between the day name and the button */
+    border-radius: 50%; /* Makes the button circular */
+    font-size: 16px; /* Adjust font size as needed */
+}
+.deleteTaskButton{
+    border: 0px solid #8C52FF;
+    background-color: transparent;
+    color: white;
+    height: 10px;
+    width: 10px;
+    cursor: pointer;
+    margin-left: 10px; /* Creates space between the day name and the button */
+    border-radius: 50%; /* Makes the button circular */
+
+}
+.hideButton {
+    border: 1px solid #8C52FF;
+    background-color: transparent;
+    color: white;
+    padding: 5px 10px; /* Adjust padding to fit your design */
+    cursor: pointer;
+    margin-left: 10px; /* Creates space between the day name and the button */
+    border-radius: 50%; /* Makes the button circular */
+    font-size: 16px; /* Adjust font size as needed */
+}
+.gradient {
+    display: inline-block; /* Adjust as needed for your gradient text */
+}
+.addButton{
+border-radius: 100px;
+height: 40px;
+width: 40px;
+
+}
+.addTaskButton{
+ border: 1px solid #8C52FF;
+    background-color: transparent;
+    color: white;
+    padding: 5px 10px; /* Adjust padding to fit your design */
+    cursor: pointer;
+    margin-left: 10px; /* Creates space between the day name and the button */
+    border-radius: 50%; /* Makes the button circular */
+    font-size: 16px; /* Adjust font size as needed */
+}
