@@ -19,6 +19,13 @@
         font-weight: 400;
         font-style: normal;
         }
+        .assignmentDropdown{
+            border: 1px solid #8C52FF;
+        background-color: rgba(55, 32, 100, 0.5);
+        
+        padding: 10px;
+        color: white;
+        }
     input{
         border: 1px solid #8C52FF;
         fill-opacity: 0%;
@@ -46,6 +53,24 @@
         background-attachment: fixed; 
         margin-bottom: 100px;
     }
+    .weekContainer {
+        display: flex;
+        justify-content: space-around; /* This will space out the day columns evenly */
+        align-items: stretch; /* This makes sure all columns stretch to the same height */
+        margin: 20px 0;
+    }
+
+    .dayColumn {
+        flex: 1; /* This makes each day column take up equal width */
+        margin: 0 10px; /* Optional: Add some space between columns */
+        padding: 10px;
+        background-color: transparent; /* Example background color */
+        color: white; /* Example text color */
+        border-radius: 10px; /* Optional: Adds rounded corners */
+        display: flex;
+        flex-direction: column; /* Organizes the content of each column vertically */
+    }
+
     .assignment { margin-bottom: 15px; }
     table { width: 90%;margin: 0 auto; border-collapse: collapse;border: 2px solid #8C52FF; }
     th { border: 2px solid #8C52FF; padding: 8px; text-align: left;}
@@ -88,6 +113,33 @@
         padding: 10px;
         color: white;
     }
+    .taskInputContainer {
+        display: flex;
+        flex-direction: column; /* Stack child elements vertically */
+        gap: 10px; /* Space between the custom task input and the select-add container */
+    }
+
+    .customTaskInput {
+        width: 100%; /* Ensure the custom task input takes the full width */
+    }
+
+    .selectAddContainer {
+        display: flex;
+        align-items: center; /* Align the select dropdown and button vertically */
+    }
+
+    .assignmentDropdown, .dayColumn button {
+        margin-right: 10px; /* Space between select dropdown and the add button */
+    }
+
+    .dayColumn button {
+        margin-right: 0; /* Remove margin on the right side of the button to keep it close to the select */
+        border-radius: 100px;
+    height: 40px;
+    width: 40px;
+    }
+
+
 </style>
 </head>
 <body>  
@@ -134,6 +186,100 @@ margin-top:60px;
         <th>Actions</th>
     </tr>
 </table>
+<h2 style="color: #8C52FF;">Schedule your week</h2>
+<div class="weekContainer">
+    <div class="dayColumn" id="sunday">
+        Sunday
+        <div class="tasksList"></div>
+        <div class="taskInputContainer">
+            <input type="text" placeholder="Task" class="customTaskInput">
+            <div class="selectAddContainer">
+                <select class="assignmentDropdown" id="sundayDropdown"></select>
+                <button type="button" onclick="addTaskToDay('sunday')">+</button>
+            </div>
+        </div>
+        
+    </div>
+
+    <div class="dayColumn" id="monday">
+        Monday
+        <div class="tasksList"></div>
+        <div class="taskInputContainer">
+            <input type="text" placeholder="Task" class="customTaskInput">
+            <div class="selectAddContainer">
+                <select class="assignmentDropdown" id="mondayDropdown"></select>
+                <button type="button" onclick="addTaskToDay('monday')">+</button>
+            </div>
+        </div>
+        
+    </div>
+
+    <div class="dayColumn" id="tuesday">
+        Tuesday
+        <div class="tasksList"></div>
+        <div class="taskInputContainer">
+            <input type="text" placeholder="Task" class="customTaskInput">
+            <div class="selectAddContainer">
+                <select class="assignmentDropdown" id="tuesdayDropdown"></select>
+                <button type="button" onclick="addTaskToDay('tuesday')">+</button>
+            </div>
+        </div>
+        
+    </div>
+
+    <div class="dayColumn" id="wednesday">
+        Wednesday
+        <div class="tasksList"></div>
+        <div class="taskInputContainer">
+            <input type="text" placeholder="Task" class="customTaskInput">
+            <div class="selectAddContainer">
+                <select class="assignmentDropdown" id="wednesdayDropdown"></select>
+                <button type="button" onclick="addTaskToDay('wednesday')">+</button>
+            </div>
+        </div>
+        
+    </div>
+
+    <div class="dayColumn" id="thursday">
+        Thursday
+        <div class="tasksList"></div>
+        <div class="taskInputContainer">
+            <input type="text" placeholder="Task" class="customTaskInput">
+            <div class="selectAddContainer">
+                <select class="assignmentDropdown" id="thursdayDropdown"></select>
+                <button type="button" onclick="addTaskToDay('thursday')">+</button>
+            </div>
+        </div>
+        
+    </div>
+
+    <div class="dayColumn" id="friday">
+        Friday
+        <div class="tasksList"></div>
+        <div class="taskInputContainer">
+            <input type="text" placeholder="Task" class="customTaskInput">
+            <div class="selectAddContainer">
+                <select class="assignmentDropdown" id="fridayDropdown"></select>
+                <button type="button" onclick="addTaskToDay('friday')">+</button>
+            </div>
+        </div>
+        
+    </div>
+
+    <div class="dayColumn" id="saturday">
+        Saturday
+        <div class="tasksList"></div>
+        <div class="taskInputContainer">
+            <input type="text" placeholder="Task" class="customTaskInput">
+            <div class="selectAddContainer">
+                <select class="assignmentDropdown" id="saturdayDropdown"></select>
+                <button type="button" onclick="addTaskToDay('saturday')">+</button>
+            </div>
+        </div>
+        
+    </div>
+</div>
+
 
 <script>
 let classes = JSON.parse(localStorage.getItem('classes')) || [];
@@ -288,6 +434,7 @@ document.getElementById('assignmentForm').addEventListener('submit', function(e)
     assignments.push({ name, dueDate: dueDateTimeLocal, className, color: classColor });
     localStorage.setItem('assignments', JSON.stringify(assignments));
     updateAssignmentsTable();
+    populateAssignmentDropdowns();
     this.reset();
 });
 
@@ -308,6 +455,19 @@ document.getElementById('editAssignmentForm').addEventListener('submit', functio
     this.reset();
     this.style.display = 'none'; 
 });
+function populateAssignmentDropdowns() {
+    const dropdowns = document.querySelectorAll('.assignmentDropdown');
+    console.log("Populating dropdowns with assignments", assignments);
+    dropdowns.forEach(dropdown => {
+        dropdown.innerHTML = '<option value="">Select</option>';
+        assignments.forEach(assignment => {
+            const option = document.createElement('option');
+            option.value = assignment.name;
+            option.textContent = assignment.name;
+            dropdown.appendChild(option);
+        });
+    });
+}
 
 window.onload = function() {
     if (classes.length > 0) {
@@ -316,7 +476,72 @@ window.onload = function() {
         updateClassesList();
     }
     updateAssignmentsTable();
+    populateAssignmentDropdowns();
+    renderTasks();
 };
+function addTaskToDay(dayId) {
+    const dropdown = document.getElementById(`${dayId}Dropdown`);
+    const customTaskInput = document.querySelector(`#${dayId} .customTaskInput`);
+    const tasksList = document.querySelector(`#${dayId} .tasksList`);
+
+    const selectedAssignment = dropdown.value;
+    const customTask = customTaskInput.value.trim();
+    let taskText = selectedAssignment || customTask;
+
+    if (!taskText) {
+        alert("Please select an assignment or enter a custom task.");
+        return;
+    }
+
+    // Assume tasks are stored as an array of objects { text: String, completed: Boolean, day: String }
+    let tasks = JSON.parse(localStorage.getItem('tasks')) || [];
+    tasks.push({ text: taskText, completed: false, day: dayId });
+
+    localStorage.setItem('tasks', JSON.stringify(tasks));
+    renderTasks(); // Call a function to update the UI with all tasks
+}
+
+function renderTasks() {
+    const tasks = JSON.parse(localStorage.getItem('tasks')) || [];
+    // Clear existing tasks UI
+    document.querySelectorAll('.tasksList').forEach(list => list.innerHTML = '');
+
+    tasks.forEach(task => {
+        const tasksList = document.querySelector(`#${task.day} .tasksList`);
+        if (!tasksList) return;
+
+        const taskContainer = document.createElement('div');
+        taskContainer.classList.add('taskContainer');
+
+        const checkbox = document.createElement('input');
+        checkbox.type = 'checkbox';
+        checkbox.checked = task.completed;
+        checkbox.onchange = (e) => {
+            task.completed = e.target.checked;
+            localStorage.setItem('tasks', JSON.stringify(tasks)); // Update localStorage when task is toggled
+            // Optional: Apply or remove strikethrough directly without re-rendering all tasks
+            label.style.textDecoration = task.completed ? "line-through" : "none";
+        };
+
+        const label = document.createElement('label');
+        label.textContent = task.text;
+        label.style.textDecoration = task.completed ? "line-through" : "none";
+
+        
+        taskContainer.appendChild(label);
+        tasksList.appendChild(taskContainer);
+        taskContainer.appendChild(checkbox);
+    });
+}
+
+function toggleStrikeThrough(checkbox, taskElement) {
+    if (checkbox.checked) {
+        taskElement.style.textDecoration = "line-through";
+    } else {
+        taskElement.style.textDecoration = "none";
+    }
+}
+
 
 </script>
 
