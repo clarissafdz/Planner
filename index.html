@@ -104,6 +104,7 @@ margin-top:60px;
 <form id="assignmentForm" style="display:none;">
     <input type="text" id="assignmentName" placeholder="Assignment Name" required>
     <input type="date" id="dueDate" required>
+    <input type="time" id="dueTime" required value="23:59"> 
     <select id="classSelect"></select>
     <button class="addButton" type="submit">+</button>
 </form>
@@ -128,9 +129,18 @@ function formatDate(dateString) {
     const dayOfWeek = daysOfWeek[date.getDay()];
     const monthName = months[date.getMonth()];
     const dayOfMonth = date.getDate();
+    const year = date.getFullYear();
 
-    return `${dayOfWeek}, ${monthName} ${dayOfMonth}`;
+    // Convert 24-hour time to 12-hour format
+    let hours = date.getHours();
+    const minutes = date.getMinutes().toString().padStart(2, '0');
+    const ampm = hours >= 12 ? 'PM' : 'AM';
+    hours = hours % 12;
+    hours = hours ? hours : 12; // the hour '0' should be '12'
+
+    return `${dayOfWeek}, ${monthName} ${dayOfMonth}, ${year} at ${hours}:${minutes} ${ampm}`;
 }
+
 
 
 
@@ -249,14 +259,16 @@ document.getElementById('assignmentForm').addEventListener('submit', function(e)
     e.preventDefault();
     const name = document.getElementById('assignmentName').value;
     const dueDate = document.getElementById('dueDate').value;
+    const dueTime = document.getElementById('dueTime').value; // Retrieve time
     const className = document.getElementById('classSelect').value;
     const classColor = classes.find(c => c.name === className).color;
-    assignments.push({name, dueDate, className, color: classColor});
+    const startDateTime = `${dueDate}T${dueTime}`;
+    assignments.push({name, dueDate: startDateTime, className, color: classColor}); // Fixed: Use 'dueDate' to hold the full datetime
     localStorage.setItem('assignments', JSON.stringify(assignments));
     updateAssignmentsTable();
-
     this.reset();
 });
+
 
 window.onload = function() {
     if (classes.length > 0) {
