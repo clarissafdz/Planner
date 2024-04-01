@@ -1,5 +1,5 @@
 
-body, input, select, button{ font-family: Averia Serif Libre, sans-serif; color: white;}
+body, input, select, button{ font-family: Averia Serif Libre, sans-serif; color: white; background-color: #8c52ff17;}
 .averia-serif libre-regular {
     font-family: "Averia Serif Libre", serif;
     font-weight: 400;
@@ -98,7 +98,7 @@ body {
     flex: 1; /* This makes each day column take up equal width */
     margin: 0 10px; /* Optional: Add some space between columns */
     padding: 10px;
-    background-color: transparent; /* Example background color */
+    background-color: #8c52ff17; /* Example background color */
     color: white; /* Example text color */
     border-radius: 10px; /* Optional: Adds rounded corners */
     display: flex;
@@ -124,7 +124,8 @@ h2 {
     color:white;
 }
 .top-right {
-    position: absolute;
+    padding: 10px;
+    position: fixed;
     top: 10px;
     right: 10px;
 }
