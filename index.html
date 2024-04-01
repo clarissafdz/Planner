@@ -81,6 +81,13 @@
         padding: 10px;
         color: white;
     }
+    .selectBut{
+        border: 1px solid #8C52FF;
+        background-color: rgba(55, 32, 100, 0.5);
+        
+        padding: 10px;
+        color: white;
+    }
 </style>
 </head>
 <body>  
@@ -104,9 +111,19 @@ margin-top:60px;
 <form id="assignmentForm" style="display:none;">
     <input type="text" id="assignmentName" placeholder="Assignment Name" required>
     <input type="date" id="dueDate" required>
-    <input type="time" id="dueTime" required value="23:59"> 
-    <select id="classSelect"></select>
+    <input type="time" id="dueTime" required> <!-- Modified: Remove default value -->
+    <select id="classSelect" class="selectbut"></select>
     <button class="addButton" type="submit">+</button>
+</form>
+
+<!-- Add Assignment Edit Form -->
+<h2 style="color: #8C52FF;">Edit Assignment</h2>
+<form id="editAssignmentForm" style="display:none;">
+    <input type="text" id="editAssignmentName" placeholder="Assignment Name" required>
+    <input type="date" id="editDueDate" required>
+    <input type="time" id="editDueTime" required>
+    <select id="editClassSelect" class="selectBut"></select>
+    <button class="saveButton" type="submit">Save Changes</button>
 </form>
 
 <table id="assignmentsTable" style="display:none;margin-top: 50px;">
@@ -141,12 +158,11 @@ function formatDate(dateString) {
     return `${dayOfWeek}, ${monthName} ${dayOfMonth}, ${year} at ${hours}:${minutes} ${ampm}`;
 }
 
-
-
-
 function updateClassSelect() {
     const select = document.getElementById('classSelect');
+    const editSelect = document.getElementById('editClassSelect'); // New: Get edit form select element
     select.innerHTML = classes.map(c => `<option value="${c.name}" style="color: ${c.color};">${c.name}</option>`).join('');
+    editSelect.innerHTML = classes.map(c => `<option value="${c.name}" style="color: ${c.color};">${c.name}</option>`).join(''); // New: Populate edit form select
 }
 
 function updateClassesList() {
@@ -160,6 +176,7 @@ function updateClassesList() {
     </div>`).join('');
     updateClassSelect();
 }
+
 function hexToRGBA(hex, opacity) {
     let r = 0, g = 0, b = 0;
     // 3 digits
@@ -176,6 +193,7 @@ function hexToRGBA(hex, opacity) {
     }
     return `rgba(${r}, ${g}, ${b}, ${opacity})`;
 }
+
 function updateAssignmentsTable() {
     const table = document.getElementById('assignmentsTable');
     if (assignments.length > 0) {
@@ -224,23 +242,21 @@ function deleteClass(index) {
     }
 }
 
-function editAssignment(index) {
-    const assignmentName = prompt("Edit assignment name:", assignments[index].name);
-    const dueDate = prompt("Edit due date (YYYY-MM-DD):", assignments[index].dueDate);
-    if (assignmentName !== null && dueDate !== null) {
-        assignments[index].name = assignmentName;
-        assignments[index].dueDate = dueDate;
-        localStorage.setItem('assignments', JSON.stringify(assignments));
-        updateAssignmentsTable();
-    }
+// New: Function to populate the edit form with assignment details
+function populateEditForm(index) {
+    const assignment = assignments[index];
+    document.getElementById('editAssignmentName').value = assignment.name;
+    const [dueDate, dueTime] = assignment.dueDate.split('T'); // Split combined datetime string into date and time
+    document.getElementById('editDueDate').value = dueDate;
+    document.getElementById('editDueTime').value = dueTime;
+    document.getElementById('editClassSelect').value = assignment.className;
 }
 
-function deleteAssignment(index) {
-    if (confirm("Are you sure you want to delete this assignment?")) {
-        assignments.splice(index, 1);
-        localStorage.setItem('assignments', JSON.stringify(assignments));
-        updateAssignmentsTable();
-    }
+function editAssignment(index) {
+    // New: Populate the edit form with assignment details
+    populateEditForm(index);
+    document.getElementById('editAssignmentForm').setAttribute('data-index', index);
+    document.getElementById('editAssignmentForm').style.display = ''; // Show the edit form
 }
 
 document.getElementById('classForm').addEventListener('submit', function(e) {
@@ -259,16 +275,34 @@ document.getElementById('assignmentForm').addEventListener('submit', function(e)
     e.preventDefault();
     const name = document.getElementById('assignmentName').value;
     const dueDate = document.getElementById('dueDate').value;
-    const dueTime = document.getElementById('dueTime').value; // Retrieve time
+    const dueTime = document.getElementById('dueTime').value;
     const className = document.getElementById('classSelect').value;
     const classColor = classes.find(c => c.name === className).color;
     const startDateTime = `${dueDate}T${dueTime}`;
-    assignments.push({name, dueDate: startDateTime, className, color: classColor}); // Fixed: Use 'dueDate' to hold the full datetime
+    assignments.push({name, dueDate: startDateTime, className, color: classColor});
     localStorage.setItem('assignments', JSON.stringify(assignments));
     updateAssignmentsTable();
     this.reset();
 });
 
+// New: Function to handle form submission for editing assignments
+document.getElementById('editAssignmentForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+    const index = this.getAttribute('data-index');
+    const name = document.getElementById('editAssignmentName').value;
+    const dueDate = document.getElementById('editDueDate').value;
+    const dueTime = document.getElementById('editDueTime').value;
+    const className = document.getElementById('editClassSelect').value;
+    const classColor = classes.find(c => c.name === className).color;
+    const startDateTime = `${dueDate}T${dueTime}`;
+    
+    // Update the assignment
+    assignments[index] = { name, dueDate: startDateTime, className, color: classColor };
+    localStorage.setItem('assignments', JSON.stringify(assignments));
+    updateAssignmentsTable();
+    this.reset();
+    this.style.display = 'none'; // Hide the edit form after submission
+});
 
 window.onload = function() {
     if (classes.length > 0) {
@@ -283,10 +317,3 @@ window.onload = function() {
 
 </body>
 </html>
-
-<!-- 
-    -edit button
-    -remove class
-    -color completo
-    -calendar format
- -->
