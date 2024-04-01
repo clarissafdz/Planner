@@ -19,6 +19,16 @@
         font-weight: 400;
         font-style: normal;
         }
+        .addspecialbutton{
+        margin-top: 10px;
+        border: 1px solid #8C52FF;
+        fill-opacity: 0%;
+        background-color: transparent;
+        color: white;
+        border-radius: 100px;
+    height: 40px;
+    width: 40px;
+    }
         .assignmentDropdown{
             border: 1px solid #8C52FF;
         background-color: rgba(55, 32, 100, 0.5);
@@ -37,7 +47,6 @@
         border: 1px solid #8C52FF;
         fill-opacity: 0%;
         background-color: #8C52FF;
-        padding: 10px;
         color: white;
     }
     input::placeholder{
@@ -49,7 +58,7 @@
     }
 
     .customTaskInput, .assignmentDropdown {
-        margin-right: 10px;
+        margin-right: 0px;
     }
 
     .gradient {
@@ -65,9 +74,24 @@
         height: 2px; /* Thickness of the underline */
         left: 0;
         bottom: 0; /* Adjust this value if you want to change the distance from the text */
-        background-image: linear-gradient(to right, rgb(255, 255, 255), transparent);
+        background-image: linear-gradient(to right, rgb(255, 255, 255), #8C52FF);
+        }
+        .underline {
+        position: relative;
+        display: inline;
+        margin-bottom: 5px;
         }
 
+        .underline::after {
+            
+        content: '';
+        position: absolute;
+        width: 100%;
+        height: 2px; /* Thickness of the underline */
+        left: 0;
+        bottom: 0; /* Adjust this value if you want to change the distance from the text */
+        background-image: linear-gradient(to right, rgb(255, 255, 255), #8C52FF);
+        }
     body {
         margin-left: 60px;
         background-image: url('bg.png');
@@ -153,11 +177,16 @@
     }
 
     .assignmentDropdown, .dayColumn button {
-        margin-right: 10px; /* Space between select dropdown and the add button */
+        margin-right: 0px; /* Space between select dropdown and the add button */
     }
 
     .dayColumn button {
-        margin-right: 0; /* Remove margin on the right side of the button to keep it close to the select */
+        margin-top: 10px;
+        border: 1px solid #8C52FF;
+        fill-opacity: 0%;
+        background-color: transparent;
+        color: white;
+        border-radius: 100px;
     height: 30px;
     width: 30px;
     }
@@ -176,6 +205,17 @@
         margin-left: 10px; /* Creates space between the day name and the button */
         border-radius: 50%; /* Makes the button circular */
         font-size: 16px; /* Adjust font size as needed */
+    }
+    .deleteTaskButton{
+        border: 0px solid #8C52FF;
+        background-color: transparent;
+        color: white;
+        padding: 5px 10px; /* Adjust padding to fit your design */
+        cursor: pointer;
+        margin-left: 10px; /* Creates space between the day name and the button */
+        border-radius: 50%; /* Makes the button circular */
+        font-size: 16px; /* Adjust font size as needed */
+
     }
     .hideButton {
         border: 1px solid #8C52FF;
@@ -231,7 +271,7 @@ margin-top:60px;
     <button class="saveButton" type="submit">Save Changes</button>
 </form>
 
-<table id="assignmentsTable" style="display:none;margin-top: 50px;">
+<table id="assignmentsTable" style="display:none;margin-top: 50px;margin-bottom: 50px;">
     <tr>
         <th>Assignment</th>
         <th>Due Date</th>
@@ -239,7 +279,7 @@ margin-top:60px;
         <th>Actions</th>
     </tr>
 </table>
-<h2 style="color: #8C52FF;">Schedule your week</h2>
+<h2 style="color: #8C52FF;" class="underline">Plan your week</h2>
 <div class="weekContainer">
     <div class="dayColumn" id="sunday">
         <div class="dayHeader">
@@ -594,7 +634,7 @@ function renderTasks() {
     // Clear existing tasks UI
     document.querySelectorAll('.tasksList').forEach(list => list.innerHTML = '');
 
-    tasks.forEach(task => {
+    tasks.forEach((task, index) => {
         const tasksList = document.querySelector(`#${task.day} .tasksList`);
         if (!tasksList) return;
 
@@ -606,21 +646,33 @@ function renderTasks() {
         checkbox.checked = task.completed;
         checkbox.onchange = (e) => {
             task.completed = e.target.checked;
-            localStorage.setItem('tasks', JSON.stringify(tasks)); // Update localStorage when task is toggled
-            // Optional: Apply or remove strikethrough directly without re-rendering all tasks
-            label.style.textDecoration = task.completed ? "line-through" : "none";
+            localStorage.setItem('tasks', JSON.stringify(tasks));
+            taskContainer.style.textDecoration = task.completed ? "line-through" : "none";
         };
 
         const label = document.createElement('label');
         label.textContent = task.text;
         label.style.textDecoration = task.completed ? "line-through" : "none";
 
-        
-        taskContainer.appendChild(label);
-        tasksList.appendChild(taskContainer);
+        const deleteButton = document.createElement('button');
+        deleteButton.textContent = '-';
+        deleteButton.classList.add('deleteTaskButton');
+        deleteButton.onclick = function() { deleteTask(index, task.day); };
+
         taskContainer.appendChild(checkbox);
+        taskContainer.appendChild(label);
+        taskContainer.appendChild(deleteButton);
+        tasksList.appendChild(taskContainer);
     });
 }
+function deleteTask(taskIndex, day) {
+    let tasks = JSON.parse(localStorage.getItem('tasks')) || [];
+    // Filter out the task to be deleted
+    tasks = tasks.filter((task, index) => index !== taskIndex);
+    localStorage.setItem('tasks', JSON.stringify(tasks));
+    renderTasks(); // Re-render tasks
+}
+
 
 function toggleStrikeThrough(checkbox, taskElement) {
     if (checkbox.checked) {
