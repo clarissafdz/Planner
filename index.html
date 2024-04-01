@@ -44,6 +44,30 @@
         color: white;
         opacity: 80%;
     }
+    .addTaskContainer {
+        margin-top: 10px;
+    }
+
+    .customTaskInput, .assignmentDropdown {
+        margin-right: 10px;
+    }
+
+    .gradient {
+        position: relative;
+        display: inline;
+        margin-bottom: 5px;
+        }
+
+        .gradient::after {
+        content: '';
+        position: absolute;
+        width: 100%;
+        height: 2px; /* Thickness of the underline */
+        left: 0;
+        bottom: 0; /* Adjust this value if you want to change the distance from the text */
+        background-image: linear-gradient(to right, rgb(255, 255, 255), transparent);
+        }
+
     body {
         margin-left: 60px;
         background-image: url('bg.png');
@@ -59,7 +83,7 @@
         align-items: stretch; /* This makes sure all columns stretch to the same height */
         margin: 20px 0;
     }
-
+    
     .dayColumn {
         flex: 1; /* This makes each day column take up equal width */
         margin: 0 10px; /* Optional: Add some space between columns */
@@ -134,10 +158,39 @@
 
     .dayColumn button {
         margin-right: 0; /* Remove margin on the right side of the button to keep it close to the select */
-        border-radius: 100px;
-    height: 40px;
-    width: 40px;
+    height: 30px;
+    width: 30px;
     }
+    .dayHeader {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+
+    .addTaskButton {
+        border: 1px solid #8C52FF;
+        background-color: transparent;
+        color: white;
+        padding: 5px 10px; /* Adjust padding to fit your design */
+        cursor: pointer;
+        margin-left: 10px; /* Creates space between the day name and the button */
+        border-radius: 50%; /* Makes the button circular */
+        font-size: 16px; /* Adjust font size as needed */
+    }
+    .hideButton {
+        border: 1px solid #8C52FF;
+        background-color: transparent;
+        color: white;
+        padding: 5px 10px; /* Adjust padding to fit your design */
+        cursor: pointer;
+        margin-left: 10px; /* Creates space between the day name and the button */
+        border-radius: 50%; /* Makes the button circular */
+        font-size: 16px; /* Adjust font size as needed */
+    }
+    .gradient {
+        display: inline-block; /* Adjust as needed for your gradient text */
+    }
+
 
 
 </style>
@@ -189,94 +242,129 @@ margin-top:60px;
 <h2 style="color: #8C52FF;">Schedule your week</h2>
 <div class="weekContainer">
     <div class="dayColumn" id="sunday">
-        Sunday
-        <div class="tasksList"></div>
-        <div class="taskInputContainer">
-            <input type="text" placeholder="Task" class="customTaskInput">
-            <div class="selectAddContainer">
-                <select class="assignmentDropdown" id="sundayDropdown"></select>
-                <button type="button" onclick="addTaskToDay('sunday')">+</button>
-            </div>
+        <div class="dayHeader">
+            <div class="gradient">Sunday</div>
+            <button class="addTaskButton" id="showAddTaskFormSunday">+</button>
+            <button type="button" class="hideButton" onclick="hideAddTaskForm('Sunday')">-</button> <!-- Hide button -->
         </div>
-        
+        <div class="tasksList"></div>
+        <div class="addTaskContainer" id="addTaskContainerSunday" style="display: none;">
+            <input type="text" placeholder="Custom Task" class="customTaskInput">
+            <select class="assignmentDropdown" id="sundayDropdown">
+                <option value="">Select Assignment</option>
+                <!-- Assignment options go here -->
+            </select>
+            <button type="button" onclick="addTaskToDay('sunday')">+</button>
+        </div>
     </div>
 
+    <!-- Monday -->
     <div class="dayColumn" id="monday">
-        Monday
-        <div class="tasksList"></div>
-        <div class="taskInputContainer">
-            <input type="text" placeholder="Task" class="customTaskInput">
-            <div class="selectAddContainer">
-                <select class="assignmentDropdown" id="mondayDropdown"></select>
-                <button type="button" onclick="addTaskToDay('monday')">+</button>
-            </div>
+        <div class="dayHeader">
+            <div class="gradient">Monday</div>
+            <button class="addTaskButton" id="showAddTaskFormMonday">+</button>
+            <button type="button" class="hideButton" onclick="hideAddTaskForm('Monday')">-</button> <!-- Hide button -->
         </div>
-        
+        <div class="tasksList"></div>
+        <div class="addTaskContainer" id="addTaskContainerMonday" style="display: none;">
+            <input type="text" placeholder="Custom Task" class="customTaskInput">
+            <select class="assignmentDropdown" id="mondayDropdown">
+                <option value="">Select Assignment</option>
+                <!-- Assignment options go here -->
+            </select>
+            <button type="button" onclick="addTaskToDay('monday')">+</button>
+        </div>
     </div>
 
+    <!-- Repeat for each day of the week -->
+    <!-- Tuesday -->
     <div class="dayColumn" id="tuesday">
-        Tuesday
-        <div class="tasksList"></div>
-        <div class="taskInputContainer">
-            <input type="text" placeholder="Task" class="customTaskInput">
-            <div class="selectAddContainer">
-                <select class="assignmentDropdown" id="tuesdayDropdown"></select>
-                <button type="button" onclick="addTaskToDay('tuesday')">+</button>
-            </div>
+        <div class="dayHeader">
+            <div class="gradient">Tuesday</div>
+            <button class="addTaskButton" id="showAddTaskFormTuesday">+</button>
+            <button type="button" class="hideButton" onclick="hideAddTaskForm('Tuesday')">-</button> <!-- Hide button -->
         </div>
-        
+        <div class="tasksList"></div>
+        <div class="addTaskContainer" id="addTaskContainerTuesday" style="display: none;">
+            <input type="text" placeholder="Custom Task" class="customTaskInput">
+            <select class="assignmentDropdown" id="tuesdayDropdown">
+                <option value="">Select Assignment</option>
+                <!-- Assignment options go here -->
+            </select>
+            <button type="button" onclick="addTaskToDay('tuesday')">+</button>
+        </div>
     </div>
 
+    <!-- Wednesday -->
     <div class="dayColumn" id="wednesday">
-        Wednesday
-        <div class="tasksList"></div>
-        <div class="taskInputContainer">
-            <input type="text" placeholder="Task" class="customTaskInput">
-            <div class="selectAddContainer">
-                <select class="assignmentDropdown" id="wednesdayDropdown"></select>
-                <button type="button" onclick="addTaskToDay('wednesday')">+</button>
-            </div>
+        <div class="dayHeader">
+            <div class="gradient">Wednesday</div>
+            <button class="addTaskButton" id="showAddTaskFormWednesday">+</button>
+            <button type="button" class="hideButton" onclick="hideAddTaskForm('Wednesday')">-</button> <!-- Hide button -->
         </div>
-        
+        <div class="tasksList"></div>
+        <div class="addTaskContainer" id="addTaskContainerWednesday" style="display: none;">
+            <input type="text" placeholder="Custom Task" class="customTaskInput">
+            <select class="assignmentDropdown" id="wednesdayDropdown">
+                <option value="">Select Assignment</option>
+                <!-- Assignment options go here -->
+            </select>
+            <button type="button" onclick="addTaskToDay('wednesday')">+</button>
+        </div>
     </div>
 
+    <!-- Thursday -->
     <div class="dayColumn" id="thursday">
-        Thursday
-        <div class="tasksList"></div>
-        <div class="taskInputContainer">
-            <input type="text" placeholder="Task" class="customTaskInput">
-            <div class="selectAddContainer">
-                <select class="assignmentDropdown" id="thursdayDropdown"></select>
-                <button type="button" onclick="addTaskToDay('thursday')">+</button>
-            </div>
+        <div class="dayHeader">
+            <div class="gradient">Thursday</div>
+            <button class="addTaskButton" id="showAddTaskFormThursday">+</button>
+            <button type="button" class="hideButton" onclick="hideAddTaskForm('Thursday')">-</button> <!-- Hide button -->
         </div>
-        
+        <div class="tasksList"></div>
+        <div class="addTaskContainer" id="addTaskContainerThursday" style="display: none;">
+            <input type="text" placeholder="Custom Task" class="customTaskInput">
+            <select class="assignmentDropdown" id="thursdayDropdown">
+                <option value="">Select Assignment</option>
+                <!-- Assignment options go here -->
+            </select>
+            <button type="button" onclick="addTaskToDay('thursday')">+</button>
+        </div>
     </div>
 
+    <!-- Friday -->
     <div class="dayColumn" id="friday">
-        Friday
-        <div class="tasksList"></div>
-        <div class="taskInputContainer">
-            <input type="text" placeholder="Task" class="customTaskInput">
-            <div class="selectAddContainer">
-                <select class="assignmentDropdown" id="fridayDropdown"></select>
-                <button type="button" onclick="addTaskToDay('friday')">+</button>
-            </div>
+        <div class="dayHeader">
+            <div class="gradient">Friday</div>
+            <button class="addTaskButton" id="showAddTaskFormFriday">+</button>
+            <button type="button" class="hideButton" onclick="hideAddTaskForm('Friday')">-</button> <!-- Hide button -->
         </div>
-        
+        <div class="tasksList"></div>
+        <div class="addTaskContainer" id="addTaskContainerFriday" style="display: none;">
+            <input type="text" placeholder="Custom Task" class="customTaskInput">
+            <select class="assignmentDropdown" id="fridayDropdown">
+                <option value="">Select Assignment</option>
+                <!-- Assignment options go here -->
+            </select>
+            <button type="button" onclick="addTaskToDay('friday')">+</button>
+        </div>
     </div>
 
+    <!-- Saturday -->
     <div class="dayColumn" id="saturday">
-        Saturday
-        <div class="tasksList"></div>
-        <div class="taskInputContainer">
-            <input type="text" placeholder="Task" class="customTaskInput">
-            <div class="selectAddContainer">
-                <select class="assignmentDropdown" id="saturdayDropdown"></select>
-                <button type="button" onclick="addTaskToDay('saturday')">+</button>
-            </div>
+        <div class="dayHeader">
+            <div class="gradient">Saturday</div>
+            <button class="addTaskButton" id="showAddTaskFormSaturday">+</button>
+            <button type="button" class="hideButton" onclick="hideAddTaskForm('Saturday')">-</button> <!-- Hide button -->
         </div>
-        
+        <div class="tasksList"></div>
+        <div class="addTaskContainer" id="addTaskContainerSaturday" style="display: none;">
+            <input type="text" placeholder="Custom Task" class="customTaskInput">
+            <select class="assignmentDropdown" id="saturdayDropdown">
+                <option value="">Select Assignment</option>
+                <!-- Assignment options go here -->
+            </select>
+            <button type="button" onclick="addTaskToDay('saturday')">+</button>
+        </div>
     </div>
 </div>
 
@@ -541,6 +629,28 @@ function toggleStrikeThrough(checkbox, taskElement) {
         taskElement.style.textDecoration = "none";
     }
 }
+function showAddTaskForm(day) {
+    document.getElementById(`showAddTaskForm${day}`).addEventListener('click', function() {
+        document.getElementById(`addTaskContainer${day}`).style.display = 'block';
+        this.style.display = 'none'; // Optionally hide the "Add Task" button
+    });
+}
+
+function hideAddTaskForm(day) {
+    const addTaskContainer = document.getElementById(`addTaskContainer${day}`);
+    const showAddTaskButton = document.getElementById(`showAddTaskForm${day}`);
+
+    // Hide the add task container and show the "Add Task" button again
+    addTaskContainer.style.display = 'none';
+    showAddTaskButton.style.display = 'inline-block'; // Adjust display value as needed
+}
+
+// Initialize show/hide functionality for each day
+const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+days.forEach(day => {
+    showAddTaskForm(day);
+    // No need to bind hide function here since it's directly called by onclick event handler
+});
 
 
 </script>
