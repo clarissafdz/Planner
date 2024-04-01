@@ -128,51 +128,46 @@ font-family: Open Sans, sans-serif;
 
         return `rgba(${r}, ${g}, ${b}, ${opacity})`;
     }
-        document.addEventListener('DOMContentLoaded', function() {
-            var calendarEl = document.getElementById('calendar');
-            var calendar = new FullCalendar.Calendar(calendarEl, {
-                plugins: ['dayGrid'],
-                initialView: 'dayGridMonth', 
-                header: {
-                left: 'prev,next today',
-                center: 'title',
-                right: 'dayGridMonth,dayGridWeek,dayGridDay'
-            },
-
-                events: [], // Your events array
-                eventRender: function(info) {
+    document.addEventListener('DOMContentLoaded', function() {
+    var calendarEl = document.getElementById('calendar');
+    var calendar = new FullCalendar.Calendar(calendarEl, {
+        plugins: ['dayGrid'],
+        initialView: 'dayGridMonth',
+        timeZone: 'local',
+        header: {
+            left: 'prev,next today',
+            center: 'title',
+            right: 'dayGridMonth,dayGridWeek,dayGridDay'
+        },
+        events: [], // Placeholder for events
+        eventRender: function(info) {
+            // Updated to no longer append due time
             let title = info.event.title;
-            let eventStart = new Date(info.event.start);
-            let hours = eventStart.getHours();
-            let minutes = eventStart.getMinutes();
-            let ampm = hours >= 12 ? 'pm' : 'am';
-            hours = hours % 12;
-            hours = hours ? hours : 12;
-            minutes = minutes < 10 ? '0' + minutes : minutes;
-            let startTimeFormatted = hours + ':' + minutes + ' ' + ampm;
-
             let backgroundColor = hexToRGBA(info.event.backgroundColor, 0.8);
-            info.el.querySelector('.fc-content').innerHTML = `<div style="font-family: 'Averia Serif Libre', serif;">${title}<span class="time-text">${startTimeFormatted}</span></div>`;
+            // Only display the title without appending time
+            info.el.querySelector('.fc-content').innerHTML = `<div style="font-family: 'Averia Serif Libre', serif;">${title}</div>`;
             info.el.style.backgroundColor = backgroundColor;
         }
     });
-        
-            function loadAssignments() {
-                let assignments = JSON.parse(localStorage.getItem('assignments')) || [];
-                let classes = JSON.parse(localStorage.getItem('classes')) || [];
-                
-                // Convert assignments to FullCalendar events format
-                let events = assignments.map(assignment => {
-                let classColor = classes.find(cls => cls.name === assignment.className)?.color || '#378006';
-                let pastelColor = hexToRGBA(classColor, 0.7)
-                return {
-                    title: `${assignment.name}<br><span style='font-size: 10px;'>${assignment.className}</span>`, // Format: "Assignment Name\nClass Name"
-                    start: assignment.dueDate,
-                    backgroundColor: pastelColor,
-                    textColor: 'white',
-                };
-            });
 
+    function loadAssignments() {
+        let assignments = JSON.parse(localStorage.getItem('assignments')) || [];
+        let classes = JSON.parse(localStorage.getItem('classes')) || [];
+        
+        // Convert assignments to FullCalendar events format
+        let events = assignments.map(assignment => {
+            let classColor = classes.find(cls => cls.name === assignment.className)?.color || '#378006';
+            let pastelColor = hexToRGBA(classColor, 0.7);
+            let dueDateOnly = assignment.dueDate.split('T')[0]; // Ensure using only date part
+
+            return {
+                title: `${assignment.name}<br><span style='font-size: 10px;'>${assignment.className}</span>`,
+                start: dueDateOnly,
+                backgroundColor: pastelColor,
+                textColor: 'white',
+                allDay: true // Mark as all-day event
+            };
+        });
 
         
                 // Add events to the calendar

@@ -277,7 +277,7 @@ document.getElementById('classForm').addEventListener('submit', function(e) {
     document.getElementById('assignmentForm').style.display = '';
     this.reset();
 });
-
+// Assuming the date and time inputs are in the local time zone and should be treated as such.
 document.getElementById('assignmentForm').addEventListener('submit', function(e) {
     e.preventDefault();
     const name = document.getElementById('assignmentName').value;
@@ -285,12 +285,17 @@ document.getElementById('assignmentForm').addEventListener('submit', function(e)
     const dueTime = document.getElementById('dueTime').value;
     const className = document.getElementById('classSelect').value;
     const classColor = classes.find(c => c.name === className).color;
-    const startDateTime = `${dueDate}T${dueTime}`;
-    assignments.push({name, dueDate: startDateTime, className, color: classColor});
+
+    // Combine the date and time with 'T' ensuring it's treated as local time.
+    const dueDateTimeLocal = dueDate + 'T' + dueTime;
+
+    assignments.push({ name, dueDate: dueDateTimeLocal, className, color: classColor });
     localStorage.setItem('assignments', JSON.stringify(assignments));
     updateAssignmentsTable();
     this.reset();
 });
+
+
 
 // New: Function to handle form submission for editing assignments
 document.getElementById('editAssignmentForm').addEventListener('submit', function(e) {
