@@ -43,7 +43,7 @@
     font-size: 8px;
     margin: 0 !important;
     padding: 0 !important;
-    display: block; /* Ensures it's on a new line and allows for margin manipulation */
+    display: block; 
 }
 
     .fc-event {
@@ -141,10 +141,8 @@ font-family: Open Sans, sans-serif;
         },
         events: [], // Placeholder for events
         eventRender: function(info) {
-            // Updated to no longer append due time
             let title = info.event.title;
             let backgroundColor = hexToRGBA(info.event.backgroundColor, 0.8);
-            // Only display the title without appending time
             info.el.querySelector('.fc-content').innerHTML = `<div style="font-family: 'Averia Serif Libre', serif;">${title}</div>`;
             info.el.style.backgroundColor = backgroundColor;
         }
@@ -154,7 +152,6 @@ font-family: Open Sans, sans-serif;
         let assignments = JSON.parse(localStorage.getItem('assignments')) || [];
         let classes = JSON.parse(localStorage.getItem('classes')) || [];
         
-        // Convert assignments to FullCalendar events format
         let events = assignments.map(assignment => {
             let classColor = classes.find(cls => cls.name === assignment.className)?.color || '#378006';
             let pastelColor = hexToRGBA(classColor, 0.7);
@@ -165,12 +162,11 @@ font-family: Open Sans, sans-serif;
                 start: dueDateOnly,
                 backgroundColor: pastelColor,
                 textColor: 'white',
-                allDay: true // Mark as all-day event
+                allDay: true 
             };
         });
 
         
-                // Add events to the calendar
                 events.forEach(event => calendar.addEvent(event));
             }
         

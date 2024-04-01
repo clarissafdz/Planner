@@ -49,7 +49,7 @@
     .assignment { margin-bottom: 15px; }
     table { width: 90%;margin: 0 auto; border-collapse: collapse;border: 2px solid #8C52FF; }
     th { border: 2px solid #8C52FF; padding: 8px; text-align: left;}
-    td { border: 0px solid #ddd; padding: 8px; text-align: left; }
+    td { border: 0px solid #ddd; padding: 8px; text-align: left; background-color:#8c52ff17 ;}
     th {background-color: #8c52ff17; }
     .edit-icon, .delete-icon { 
     cursor: pointer; 
@@ -249,18 +249,16 @@ function deleteClass(index) {
     }
 }
 
-// New: Function to populate the edit form with assignment details
 function populateEditForm(index) {
     const assignment = assignments[index];
     document.getElementById('editAssignmentName').value = assignment.name;
-    const [dueDate, dueTime] = assignment.dueDate.split('T'); // Split combined datetime string into date and time
+    const [dueDate, dueTime] = assignment.dueDate.split('T');
     document.getElementById('editDueDate').value = dueDate;
     document.getElementById('editDueTime').value = dueTime;
     document.getElementById('editClassSelect').value = assignment.className;
 }
 
 function editAssignment(index) {
-    // New: Populate the edit form with assignment details
     populateEditForm(index);
     document.getElementById('editAssignmentForm').setAttribute('data-index', index);
     document.getElementById('editAssignmentForm').style.display = ''; // Show the edit form
@@ -277,7 +275,6 @@ document.getElementById('classForm').addEventListener('submit', function(e) {
     document.getElementById('assignmentForm').style.display = '';
     this.reset();
 });
-// Assuming the date and time inputs are in the local time zone and should be treated as such.
 document.getElementById('assignmentForm').addEventListener('submit', function(e) {
     e.preventDefault();
     const name = document.getElementById('assignmentName').value;
@@ -286,7 +283,6 @@ document.getElementById('assignmentForm').addEventListener('submit', function(e)
     const className = document.getElementById('classSelect').value;
     const classColor = classes.find(c => c.name === className).color;
 
-    // Combine the date and time with 'T' ensuring it's treated as local time.
     const dueDateTimeLocal = dueDate + 'T' + dueTime;
 
     assignments.push({ name, dueDate: dueDateTimeLocal, className, color: classColor });
@@ -297,7 +293,6 @@ document.getElementById('assignmentForm').addEventListener('submit', function(e)
 
 
 
-// New: Function to handle form submission for editing assignments
 document.getElementById('editAssignmentForm').addEventListener('submit', function(e) {
     e.preventDefault();
     const index = this.getAttribute('data-index');
@@ -307,13 +302,11 @@ document.getElementById('editAssignmentForm').addEventListener('submit', functio
     const className = document.getElementById('editClassSelect').value;
     const classColor = classes.find(c => c.name === className).color;
     const startDateTime = `${dueDate}T${dueTime}`;
-    
-    // Update the assignment
-    assignments[index] = { name, dueDate: startDateTime, className, color: classColor };
+        assignments[index] = { name, dueDate: startDateTime, className, color: classColor };
     localStorage.setItem('assignments', JSON.stringify(assignments));
     updateAssignmentsTable();
     this.reset();
-    this.style.display = 'none'; // Hide the edit form after submission
+    this.style.display = 'none'; 
 });
 
 window.onload = function() {
